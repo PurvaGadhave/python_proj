@@ -1,0 +1,69 @@
+def display_menu():
+    print("\n=== TO-DO LIST APPLICATION ===")
+    print("1. View To-Do List")
+    print("2. Add a Task")
+    print("3. Mark Task as Complete")
+    print("4. Delete a Task")
+    print("5. Exit")
+
+def run():
+    # Tasks are tracked using a list of dictionaries to store status
+    todo_list = []
+    
+    while True:
+        display_menu()
+        choice = input("\nSelect an option (1-5): ").strip()
+        
+        if choice == "1":
+            if not todo_list:
+                print("\nYour to-do list is empty!")
+            else:
+                print("\n--- YOUR TASKS ---")
+                for index, item in enumerate(todo_list, start=1):
+                    status = "DONE" if item["completed"] else "NOT-DONE"
+                    print(f"{index}. [{status}] {item['task']}")
+                    
+        elif choice == "2":
+            new_task = input("\nEnter the task description: ").strip()
+            if new_task:
+                todo_list.append({"task": new_task, "completed": False})
+                print(f"'{new_task}' has been added successfully.")
+            else:
+                print("Task description cannot be empty!")
+                
+        elif choice == "3":
+            if not todo_list:
+                print("\nNo tasks available to update.")
+                continue
+            try:
+                task_num = int(input("\nEnter the number of the completed task: "))
+                if 1 <= task_num <= len(todo_list):
+                    todo_list[task_num - 1]["completed"] = True
+                    print(f"Task #{task_num} marked as complete!")
+                else:
+                    print("Invalid task number.")
+            except ValueError:
+                print("Please enter a valid number.")
+                
+        elif choice == "4":
+            if not todo_list:
+                print("\nNo tasks available to delete.")
+                continue
+            try:
+                task_num = int(input("\nEnter the task number to delete: "))
+                if 1 <= task_num <= len(todo_list):
+                    removed = todo_list.pop(task_num - 1)
+                    print(f"Removed task: '{removed['task']}'")
+                else:
+                    print("Invalid task number.")
+            except ValueError:
+                print("Please enter a valid number.")
+                
+        elif choice == "5":
+            print("\nThank you for using the To-Do List application.)
+            break
+        else:
+            print("Invalid selection. Please choose a number between 1 and 5.")
+
+if __name__ == "__main__":
+    run()
